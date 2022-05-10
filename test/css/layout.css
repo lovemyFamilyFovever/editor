@@ -108,7 +108,8 @@ input {
   cursor: se-resize;
 }
 
-.close_btn, .btn-close {
+.close_btn,
+.btn-close {
   cursor: pointer;
   line-height: 1;
   padding: 5px;
@@ -126,9 +127,65 @@ svg {
 .mdui-text {
   text-align: left;
   line-height: 50px;
-  padding-left: 10px;
+  padding-left: 30px;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
 }
 
 .mdui-panel {
   padding: 10px;
+}
+
+.mdui-text:hover {
+  background: #fbfbfb;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+
+.mdui-text:before {
+  content: "";
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  left: 5px;
+  top: 16px;
+  background: url(../img/text.png) no-repeat 100% 100%;
+  background-size: 100%;
+}
+
+.mdui-panel-item-header:before {
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  left: 10px;
+  top: 22px;
+  background: url(../img/folder.png) no-repeat 100% 100%;
+  background-size: 100%;
+}
+
+.mdui-panel-item-header {
+  padding-left: 30px;
+}
+
+.mdui-folder {
+  position: relative;
+}
+
+.mdui-folder:before {
+  /* content: ""; */
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  left: 10px;
+  top: 16px;
+  background: url(../img/folder.png) no-repeat 100% 100%;
+  background-size: 100%;
+}
+
+/* 右键菜单 */
+#menu {
+  position: absolute;
+  top: -500px;
 }

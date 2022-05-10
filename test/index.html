@@ -49,7 +49,7 @@
             <!-- 编辑器 DOM -->
             <div style="border: 1px solid #ccc;">
                 <div id="editor-toolbar" style="border-bottom: 1px solid #ccc;"></div>
-                <div id="editor-text-area" style="height: 500px"></div>
+                <div id="editor-text-area" style="height: calc(100vh - 120px)"></div>
             </div>
 
             <!-- mask div 蒙层 -->
@@ -62,17 +62,19 @@
             </p>
         </div>
     </div>
-    <script type="text/html" id="tpl">
-        <div class="mdui-panel" mdui-panel="">
+
+</body>
+<script type="text/html" id="tpl">
+        <div class="mdui-panel" mdui-panel>
             {{each dataList item}}
                 {{if item.type=='text'}}
-                 <p class="mdui-text">{{item.title}}
+                 <p class="mdui-text" data-id="{{item.id}}" data-template="{{item.content}}">{{item.title}} </p>
                 {{else}}
                     <div class="mdui-panel-item mdui-folder">
                         <div class="mdui-panel-item-header">{{item.title}}</div>
-                        <div class="mdui-panel-item-body" style="height: auto;">                        
+                        <div class="mdui-panel-item-body">                        
                             {{each item.children child}}
-                                <p class="mdui-text">
+                                <p class="mdui-text" data-id="{{child.id}}" data-template="{{child.content}}">
                                     {{child.title}}
                                 </p>
                             {{/each}}
@@ -82,117 +84,149 @@
             {{/each}}
         </div>
 </script>
-    <script src="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/index.min.js"></script>
-    <script>
-        var layer = new Layer({
-            layerclass: "layerContianer2",//存放页面的容器类名
-            width: 500,
-            height: 650,
-            alerttit: "模板列表",
-            setOverflow: "overflow-y:none",//设置滚动的属性 overflow-y：设置竖向  overflow-x:设置横向
-            content: getModelTree(),
-            callback: function () {
-                // mdui.mutation();
-            }
-        });
+<script src="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/index.min.js"></script>
+<script>
 
-        /**
-         * 获取模板树，现在暂时模拟一下
-         */
-        function getModelTree() {
-            var content = [{
-                id: "3",
-                parent: '0',
-                title: "超额完成业生产计划模板",
-                content: '<h2 style="text-indent: 0px; text-align: start;">泰钢集团4月超额完成业生产计划</h2><p style="text-indent: 2em; text-align: left; line-height: 34px;">泰钢集团4月实现了各项生产指标全线飘红，生产经营取得显著成效：山前钢坯、中宽带产量分别取得了完成计划102.43%、102.59%的好成绩。</p><p style="text-indent: 2em; text-align: left; line-height: 34px;">950冷轧板和1700冷轧板分别完成计划的106.49%、100.03%。不锈钢坯完成计划的104.03%，不锈钢热轧卷完成计划的100.24%。泰嘉冷轧完成计划的100.17%等。</p>',
-                type: 'text',
-            }, {
-                id: "1",
-                parent: "0",
-                title: "最新资讯",
-                content: '',
-                type: "folder",
-                children: [
-                    {
-                        id: "101",
-                        parent: "1",
-                        title: "测数据二级菜单1",
-                        type: "text",
-                        content: '<h2 style="text-indent: 0px; text-align: start;">青山继续平盘，现货守稳30000关口！</h2><p>日期：2022-05-07&nbsp;14:50:02打印579标签：300系 市场快讯</p><p>今日青山开启5月首次盘价，316L来看，冷轧暂未“露面”，而热轧5月期货价格30000元/吨，较于前一轮（4月20日）盘价继续持平！</p><p>现货市场来看，午后暂未有明显调价，毕竟目前现货市场民营热轧316L主流基价就踩稳在3万关口。</p><p>成本支撑、钢厂检修、挺价等等因素，近期都使得316L的价格被迫坚强。从节后原料钼铁价格来看，已经出现小幅度回落，但是目前还能守住180000关口，钼价短期也有着生产成本的支撑，从而产生惜售情绪!</p>',
-                    }, {
-                        id: "102",
-                        parent: "1",
-                        title: "测数据二级菜单2",
-                        type: "text",
-                        content: '<p>这是一条测试数据2022年5月7日15:38:47</p>'
-                    }
-                ]
-            }, {
-                id: '2',
-                parent: "0",
-                content: "",
-                title: "厂商推荐",
-                type: "folder",
-                children: [
-                    {
-                        id: '201',
-                        parent: '2',
-                        title: "【51bxg】钢市齐挺价，后市价格将",
-                        type: "text",
-                        content: '<h2 style="text-indent: 0px; text-align: start;">【51bxg】钢、市齐挺价，后市价格将……</h2><p>日期：2022-05-07&nbsp;15:54:48打印735标签：市场快讯</p><p>本周不锈钢现货价格整体呈现稳中带涨的走势，五一假期后市场及下游积极补库，激起一波采购潮，市场成交氛围较节前有所回暖。而不锈钢期货价格先涨后跌，呈高位宽幅震荡运行，截至本周五，主力合约下跌610元/吨至18750元/吨，期现基差大幅走扩至1520元/吨，下面来看看本周市场表现与下周预测。</p>',
-                    }
-                ]
-            }];
-            var html = template("tpl", { dataList: content });
-            return html;
+    var content = "";
+
+    var layer = new Layer({
+        layerclass: "layerContianer2",//存放页面的容器类名
+        width: 500,
+        height: 650,
+        alerttit: "模板列表",
+        setOverflow: "overflow-y:none",//设置滚动的属性 overflow-y：设置竖向  overflow-x:设置横向
+        content: getModelTree(),
+        callback: function () {
+            mdui.mutation();
         }
+    });
 
-        mdui.mutation();
-
-
-        const E = window.wangEditor
-
-        const LANG = location.href.indexOf('lang=en') > 0 ? 'en' : 'zh-CN'
-        E.i18nChangeLanguage(LANG) // 切换语言
-
-        E.Boot.registerMenu(myMenuConf)
-
-        window.editor = E.createEditor({
-            selector: '#editor-text-area',
-            html: '<p><br></p>',
-            config: {
-                placeholder: 'Type here...',
-                MENU_CONF: {
-                    uploadImage: {
-                        fieldName: 'your-fileName',
-                        base64LimitSize: 10 * 1024 * 1024 // 10M 以下插入 base64
-                    }
-                },
-                onChange(editor) {
-                    console.log(editor.getHtml())
-
-                    // 选中文字
-                    const selectionText = editor.getSelectionText()
-                    document.getElementById('selected-length').innerHTML = selectionText.length
-                    // 全部文字
-                    const text = editor.getText().replace(/\n|\r/mg, '')
-                    document.getElementById('total-length').innerHTML = text.length
+    /**
+     * 获取模板树，现在暂时模拟一下,【目前暂时只允许两层嵌套】
+     */
+    function getModelTree() {
+        content = [{
+            id: "3",
+            parent: '0',
+            title: "超额完成业生产计划模板",
+            content: '<h2 style="text-indent: 0px; text-align: start;">泰钢集团4月超额完成业生产计划</h2><p style="text-indent: 2em; text-align: left; line-height: 34px;">泰钢集团4月实现了各项生产指标全线飘红，生产经营取得显著成效：山前钢坯、中宽带产量分别取得了完成计划102.43%、102.59%的好成绩。</p><p style="text-indent: 2em; text-align: left; line-height: 34px;">950冷轧板和1700冷轧板分别完成计划的106.49%、100.03%。不锈钢坯完成计划的104.03%，不锈钢热轧卷完成计划的100.24%。泰嘉冷轧完成计划的100.17%等。</p>',
+            type: 'text',
+        }, {
+            id: "1",
+            parent: "0",
+            title: "最新资讯",
+            content: '',
+            type: "folder",
+            children: [
+                {
+                    id: "101",
+                    parent: "1",
+                    title: "测数据二级菜单1",
+                    type: "text",
+                    content: '<h2 style="text-indent: 0px; text-align: start;">青山继续平盘，现货守稳30000关口！</h2><p>日期：2022-05-07&nbsp;14:50:02打印579标签：300系 市场快讯</p><p>今日青山开启5月首次盘价，316L来看，冷轧暂未“露面”，而热轧5月期货价格30000元/吨，较于前一轮（4月20日）盘价继续持平！</p><p>现货市场来看，午后暂未有明显调价，毕竟目前现货市场民营热轧316L主流基价就踩稳在3万关口。</p><p>成本支撑、钢厂检修、挺价等等因素，近期都使得316L的价格被迫坚强。从节后原料钼铁价格来看，已经出现小幅度回落，但是目前还能守住180000关口，钼价短期也有着生产成本的支撑，从而产生惜售情绪!</p>',
+                }, {
+                    id: "102",
+                    parent: "1",
+                    title: "测数据二级菜单2",
+                    type: "text",
+                    content: '<p>这是一条测试数据2022年5月7日15:38:47</p>'
                 }
-            }
-        })
-
-        window.toolbar = E.createToolbar({
-            editor,
-            selector: '#editor-toolbar',
-            config: {
-                insertKeys: {
-                    index: 0,
-                    keys: ['myMenu'], // show menu in toolbar
+            ]
+        }, {
+            id: '2',
+            parent: "0",
+            title: "厂商推荐",
+            content: "",
+            type: "folder",
+            children: [
+                {
+                    id: '201',
+                    parent: '2',
+                    title: "【51bxg】钢市齐挺价，后市价格将",
+                    type: "text",
+                    content: '<p>这是一条测试数据2022年5月10日15:38:47</p>'
                 }
-            }
-        })
+            ]
+        }, {
+            id: "4",
+            parent: "0",
+            title: "最新资讯",
+            content: '',
+            type: "folder",
+            children: [
+                {
+                    id: "301",
+                    parent: "4",
+                    title: "佛山不锈钢",
+                    type: "text",
+                    content: '<h2 style="text-indent: 0px; text-align: start;">青山继续平盘，现货守稳30000关口！</h2><p>日期：2022-05-07&nbsp;14:50:02打印579标签：300系 市场快讯</p><p>今日青山开启5月首次盘价，316L来看，冷轧暂未“露面”，而热轧5月期货价格30000元/吨，较于前一轮（4月20日）盘价继续持平！</p><p>现货市场来看，午后暂未有明显调价，毕竟目前现货市场民营热轧316L主流基价就踩稳在3万关口。</p><p>成本支撑、钢厂检修、挺价等等因素，近期都使得316L的价格被迫坚强。从节后原料钼铁价格来看，已经出现小幅度回落，但是目前还能守住180000关口，钼价短期也有着生产成本的支撑，从而产生惜售情绪!</p>',
+                }, {
+                    id: "302",
+                    parent: "4",
+                    title: "无锡不锈钢",
+                    type: "text",
+                    content: '<p>这是一条测试数据2022年5月7日15:38:47</p>'
+                }
+            ]
+        }];
+        var html = template("tpl", { dataList: content });
+        return html;
+    }
 
-    </script>
-</body>
+    const E = window.wangEditor
+
+    const LANG = location.href.indexOf('lang=en') > 0 ? 'en' : 'zh-CN'
+    E.i18nChangeLanguage(LANG) // 切换语言
+
+    E.Boot.registerMenu(myMenuConf)
+
+    window.editor = E.createEditor({
+        selector: '#editor-text-area',
+        html: '',
+        config: {
+            placeholder: '请在此输入...',
+            MENU_CONF: {
+                uploadImage: {
+                    fieldName: 'your-fileName',
+                    base64LimitSize: 10 * 1024 * 1024 // 10M 以下插入 base64
+                }
+            },
+            onChange(editor) {
+                console.log(editor.getHtml())
+
+                // 选中文字
+                const selectionText = editor.getSelectionText()
+                document.getElementById('selected-length').innerHTML = selectionText.length
+                // 全部文字
+                const text = editor.getText().replace(/\n|\r/mg, '')
+                document.getElementById('total-length').innerHTML = text.length
+            }
+        }
+    })
+
+    window.toolbar = E.createToolbar({
+        editor,
+        selector: '#editor-toolbar',
+        config: {
+            insertKeys: {
+                index: 0,
+                keys: ['myMenu'], // show menu in toolbar
+            }
+        }
+    })
+
+    $("body").on('click', '.mdui-text', function () {
+        var id = $(this).data('id');
+        var template = $(this).data('template');
+        // var html = getArrayValue(content, id)
+        console.log(template);
+        editor.insertBreak()
+        editor.dangerouslyInsertHtml(template);
+    })
+
+    //清空编辑器内容
+    //editor.clear()
+
+</script>
 
 </html>

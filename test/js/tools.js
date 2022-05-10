@@ -42,3 +42,27 @@ const myMenuConf = {
     }
 }
 
+//递归 在array中根据id获取特定值
+function getArrayValue(array, id) {
+    // for (var i = 0; i < array.length; i++) {
+    //     if (array[i].type == "folder") {
+    //         console.log(array[i])
+    //         getArrayValue(array[i].children, id);
+    //     } else {
+    //         if (id == array[i].id) {
+    //             console.log(array[i])
+    //             return array[i].content;
+    //         }
+
+    //     }
+    // }
+    // products.find(product => product.items.some(item => item.name === 'milk'));
+
+
+    array.find((arr) => {
+        return arr.some((item) => {
+            return item.id === id;
+        });
+
+    });
+}
