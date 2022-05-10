@@ -16,8 +16,8 @@
 /*弹框的基本对象*/
 function Layer(options) {
     this.config = {
-        layerBoxClass: "layerBox",
-        layerclass: "",
+        layerBoxClass: "",
+        layerid: "",
         width: 300,
         height: 700,
         zIndex: 1000,
@@ -37,21 +37,29 @@ Layer.prototype = {
         that.config.zIndex++;
         var s = UDP.Public.view();
 
-        str = `<div class="overlay" style="z-index:${that.config.zIndex}">
-                <div class="animated zoomIn ${that.config.layerBoxClass}" style = "width:${this.config.width}px;height:${this.config.height}px">
-                <h4 class="layerHeader">${this.config.alerttit}<a href="javascript:;" class="close_btn"><svg viewBox="0 0 1024 1024"><path d="M1024 896.1024l-128 128L512 640 128 1024 0 896 384 512 0 128 128 0 512 384 896.1024 0l128 128L640 512z"></path></svg></a></h4>
-                <div class="layerContianer ${this.config.layerclass}" style="${this.config.setOverflow}">
-              ${that.config.content}
-                </div>
-                <span class="layer-size">
-                </span>
-                </div>
-               </div>`;
+        var html = template("layer", { config: that.config });
+        $("body").append(html);
 
-        $("body").append(str);
+        $('#' + that.config.layerid + ' .layerContianer').html(that.config.content);
+        // $('#' + that.config.layerid).css('z-index', that.config.zIndex);
+        // $('#' + that.config.layerBoxClass).css({
+        //     "width": that.config.width,
+        //     "height": that.config.height,
+        // });
+
+        /*关闭当前弹窗*/
         $(".close_btn").click(function () {
             that.delDialog($(this));
         });
+        /*隐藏当前弹窗*/
+        $(".hide_btn").click(function () {
+            that.hideDialog($(this));
+        });
+
+        $(".add_btn").click(function () {
+            that.addDialog($(this));
+        });
+
         $("." + that.config.layerBoxClass).eq($(".overlay").size() - 1).css({ left: (s.w - this.config.width) / 2 + "px", top: (s.h - this.config.height) / 2 + "px" });
         if (that.config.callback) {
             that.config.callback.apply(this, []);
@@ -62,6 +70,27 @@ Layer.prototype = {
     delDialog: function (ele) {
         $(ele).parents(".overlay").remove();
     },
+
+    /*隐藏弹窗*/
+    hideDialog: function (ele) {
+        if (ele.hasClass('open_status')) {
+            $(ele).parents(".layerBox").css("height", "0");
+            ele.find('svg').css("transform", 'rotate(180deg)');
+            ele.removeClass('open_status');
+        } else {
+            $(ele).parents(".layerBox").css("height", "650px");
+            ele.find('svg').css("transform", 'rotate(0deg)');
+            ele.addClass('open_status');
+        }
+    },
+
+    addDialog: function (ele) {
+        ele.find('svg').css("transform", 'rotate(90deg)');
+        setTimeout(function () {
+            ele.find('svg').css("transform", 'rotate(0deg)');
+        }, 500)
+    },
+
     /*移动弹框*/
     moveDialog: function (ele) {
         var that = this;

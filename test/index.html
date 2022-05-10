@@ -84,17 +84,43 @@
             {{/each}}
         </div>
 </script>
+
+<script type="text/html" id="layer">
+    <div class="overlay" id="{{config.layerid}}">
+        <div class="animated zoomIn {{config.layerBoxClass}}" style="width: 500px;height: 650px;">
+        <h4 class="layerHeader">{{config.alerttit}}
+
+            <a href="javascript:;" class="add_btn">
+                <svg viewBox="0 0 1024 1024"><path d="M896 448H576V128c0-35.2-28.8-64-64-64s-64 28.8-64 64v320H128c-35.2 0-64 28.8-64 64s28.8 64 64 64h320v320c0 35.2 28.8 64 64 64s64-28.8 64-64V576h320c35.2 0 64-28.8 64-64s-28.8-64-64-64z" ></path></svg>            </a>
+
+            <a href="javascript:;" class="hide_btn open_status">
+                <svg viewBox="0 0 1664 1024"><path d="M790.656 946.688c2.048 1.024 3.84 2.816 5.76 3.584a94.848 94.848 0 0 0 110.592-19.2l666.88-705.28a95.872 95.872 0 0 0-139.264-131.84L836.096 727.04 228.864 96.512A95.744 95.744 0 0 0 90.88 229.12l673.28 698.88c1.28 1.152 3.328 1.664 4.608 3.2 1.024 0.896 1.664 1.92 2.688 3.2 5.76 5.76 12.8 8.448 19.2 12.16z" ></path></svg>
+            </a>
+            <a href="javascript:;" class="close_btn">
+                <svg viewBox="0 0 1024 1024"><path d="M1024 896.1024l-128 128L512 640 128 1024 0 896 384 512 0 128 128 0 512 384 896.1024 0l128 128L640 512z"></path></svg>
+            </a>
+        </h4>
+        <div class="layerContianer " style="overflow-y:none">
+        </div>
+        <span class="layer-size">
+        </span>
+        </div>
+       </div>
+
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/index.min.js"></script>
 <script>
 
     var content = "";
 
     var layer = new Layer({
-        layerclass: "layerContianer2",//存放页面的容器类名
+        layerBoxClass: "layerBox",
+        layerid: "layer_model",//存放页面的容器类名
         width: 500,
         height: 650,
         alerttit: "模板列表",
-        setOverflow: "overflow-y:none",//设置滚动的属性 overflow-y：设置竖向  overflow-x:设置横向
+        // setOverflow: "overflow-y:none",//设置滚动的属性 overflow-y：设置竖向  overflow-x:设置横向
         content: getModelTree(),
         callback: function () {
             mdui.mutation();
@@ -192,7 +218,7 @@
                 }
             },
             onChange(editor) {
-                console.log(editor.getHtml())
+                // console.log(editor.getHtml())
 
                 // 选中文字
                 const selectionText = editor.getSelectionText()
