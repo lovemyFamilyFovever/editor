@@ -2,8 +2,8 @@
  * @Author: lxc
  * @Date: 2022-05-06 15:01:34
  * @LastEditors: lxc
- * @LastEditTime: 2022-05-07 17:32:50
- * @FilePath: \富文本编辑器wangeditor\test\js\tools.js
+ * @LastEditTime: 2022-05-11 17:32:51
+ * @FilePath: \editor\test\js\tools.js
  * @Description: 
  * 
  * Copyright (c) 2022 by __, All Rights Reserved. 
@@ -28,11 +28,11 @@ class MyMenu {
         return false // or true
     }
     exec(editor, value) {
-
-
         // editor.insertText(value);
 
-        layer.show();
+        if ($('#layer_model').length == 0) {
+            layer_template.show();
+        }
     }
 }
 const myMenuConf = {
@@ -56,7 +56,7 @@ function getArrayValue(array, id) {
 
     //     }
     // }
-    // products.find(product => product.items.some(item => item.name === 'milk'));
+    // products.find(product => product.items.some(item => item.name === '3'));
 
 
     array.find((arr) => {

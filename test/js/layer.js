@@ -2,8 +2,8 @@
  * @Author: lxc
  * @Date: 2022-05-06 15:55:41
  * @LastEditors: lxc
- * @LastEditTime: 2022-05-07 15:52:17
- * @FilePath: \富文本编辑器wangeditor\test\js\layer.js
+ * @LastEditTime: 2022-05-11 17:31:52
+ * @FilePath: \editor\test\js\layer.js
  * @Description: 
  * 
  * Copyright (c) 2022 by __, All Rights Reserved. 
@@ -40,12 +40,12 @@ Layer.prototype = {
         var html = template("layer", { config: that.config });
         $("body").append(html);
 
-        $('#' + that.config.layerid + ' .layerContianer').html(that.config.content);
-        // $('#' + that.config.layerid).css('z-index', that.config.zIndex);
-        // $('#' + that.config.layerBoxClass).css({
-        //     "width": that.config.width,
-        //     "height": that.config.height,
-        // });
+        $('#' + that.config.layerid + ' .layerContainer').html(that.config.content);
+        $('#' + that.config.layerid).css('z-index', that.config.zIndex);
+        $('.animated.zoomIn').css({
+            "width": that.config.width,
+            "height": that.config.height,
+        });
 
         /*关闭当前弹窗*/
         $(".close_btn").click(function () {
@@ -54,10 +54,6 @@ Layer.prototype = {
         /*隐藏当前弹窗*/
         $(".hide_btn").click(function () {
             that.hideDialog($(this));
-        });
-
-        $(".add_btn").click(function () {
-            that.addDialog($(this));
         });
 
         $("." + that.config.layerBoxClass).eq($(".overlay").size() - 1).css({ left: (s.w - this.config.width) / 2 + "px", top: (s.h - this.config.height) / 2 + "px" });
@@ -69,6 +65,7 @@ Layer.prototype = {
     /*移除弹框*/
     delDialog: function (ele) {
         $(ele).parents(".overlay").remove();
+        $('.contextmenu-content').remove();
     },
 
     /*隐藏弹窗*/
@@ -82,13 +79,6 @@ Layer.prototype = {
             ele.find('svg').css("transform", 'rotate(0deg)');
             ele.addClass('open_status');
         }
-    },
-
-    addDialog: function (ele) {
-        ele.find('svg').css("transform", 'rotate(90deg)');
-        setTimeout(function () {
-            ele.find('svg').css("transform", 'rotate(0deg)');
-        }, 500)
     },
 
     /*移动弹框*/
