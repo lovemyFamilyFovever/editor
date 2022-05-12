@@ -175,11 +175,19 @@ svg {
   padding: 10px;
 }
 
+.mdui-panel-item-body {
+  padding: 0;
+}
+
+.mdui-panel-item-body .mdui-text {
+  padding-left: 60px;
+}
+
+
 .mdui-text:hover {
   background: #efefef;
   cursor: pointer;
 }
-
 
 .mdui-text:before {
   content: "";
@@ -190,6 +198,10 @@ svg {
   top: 16px;
   background: url(../img/text.png) no-repeat 100% 100%;
   background-size: 100%;
+}
+
+.mdui-panel-item-body .mdui-text:before {
+  left: 35px;
 }
 
 .mdui-panel-item-header:before {
@@ -226,7 +238,6 @@ svg {
 }
 
 /* 右键菜单 */
-
 /* 遮罩层 */
 .contextmenu-mask {
   position: fixed;
@@ -241,30 +252,24 @@ svg {
 
 /* 菜单内容的容器 */
 .contextmenu-content {
+  padding-top: 10px;
   position: fixed;
   left: 999999px;
   top: 999999px;
-  z-index: 50;
+
   user-select: none;
   z-index: 1003;
-  width: 150px;
+  width: 170px;
   height: 300px;
   background: #fff;
-  border-radius: 3px;
+  border-radius: 10px;
   border: 1px solid #e8e8e8;
   box-shadow: 0 2px 10px #0000001f;
   -webkit-box-shadow: 0 2px 10px #0000001f;
 }
 
-/* 例子使用内容 */
-.item_list {
-  border-radius: 4px;
-  /* min-width: 180px; */
-  overflow: hidden;
-  padding-top: 10px;
-}
-
 .item {
+  cursor: pointer;
   box-sizing: border-box;
   height: 40px;
   word-break: keep-all;
@@ -272,9 +277,11 @@ svg {
   border-bottom: 1px solid #ddd;
   padding: 10px 15px;
   color: #595959;
+  position: relative;
 }
 
-.item:hover {
+.item:hover, .item_child:hover {
+  /* background: #e5e5e6; */
   background: #f1f1f1;
   color: #333;
 }
@@ -287,8 +294,45 @@ svg {
   vertical-align: top;
 }
 
-/* 滚动槽 */
+.item_children {
+  display: none;
+  position: absolute;
+  padding-top: 10px;
+  right: -174px;
+  top: 5px;
+  user-select: none;
+  z-index: 1008;
+  width: 170px;
+  height: 300px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #e8e8e8;
+  box-shadow: 0 2px 10px #0000001f;
+  -webkit-box-shadow: 0 2px 10px #0000001f;
+}
 
+.item_child {
+  cursor: pointer;
+  box-sizing: border-box;
+  height: 40px;
+  word-break: keep-all;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 15px;
+  color: #595959;
+  position: relative;
+}
+
+.item_children:hover {
+  display: block;
+}
+
+.add_item:hover .item_children {
+  display: block;
+}
+
+/* 右键菜单 */
+/* 滚动槽 */
 body ::-webkit-scrollbar {
   width: 0;
   height: 0;
@@ -313,3 +357,5 @@ body ::-webkit-scrollbar {
   -webkit-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
 }
+
+/* 滚动槽 */

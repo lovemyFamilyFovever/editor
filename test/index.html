@@ -2,7 +2,7 @@
  * @Author: lxc
  * @Date: 2022-04-27 11:50:09
  * @LastEditors: lxc
- * @LastEditTime: 2022-05-11 17:39:42
+ * @LastEditTime: 2022-05-12 17:38:44
  * @FilePath: \editor\test\index.html
  * @Description: 
  * 
@@ -25,7 +25,7 @@
     <script src="./js/template-web.js"></script>
 
     <!-- 拖动 -->
-    <script src="./js/jquery.min.js"></script>
+    <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
     <script src="./js/public-method.js"></script>
     <script src="./js/layer.js"></script>
 
@@ -71,27 +71,35 @@
     <div class="contextmenu-content">
         <div class="item_list">
             <div class="item add_item">
-                <svg viewBox="0 0 48 48"><path d="M40 23V14L31 4H10C8.89543 4 8 4.89543 8 6V42C8 43.1046 8.89543 44 10 44H22" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M33 29V43" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M26 36H33H40" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 4V14H40" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg viewBox="0 0 48 48">
+                    <path d="M40 23V14L31 4H10C8.89543 4 8 4.89543 8 6V42C8 43.1046 8.89543 44 10 44H22" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M33 29V43" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M26 36H33H40" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 4V14H40" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
                 添加
-                <svg viewBox="0 0 1024 1024" style="fill: #000;right: 0px;position: absolute;"><path d="M638.88124999 469.11875l43.828125 43.828125-44.175 44.175-323.090625 324.88125c-11.9625 12.0375-11.9625 31.734375 0 43.790625 11.9625 12.01875 31.584375 12.01875 43.528125 0l388.828125-390.946875c11.934375-12.0375 11.934375-31.771875 0-43.790625L358.97187499 100.08125c-11.94375-12.01875-31.575-12.01875-43.528125 0-11.9625 12.065625-11.9625 31.771875 0 43.790625l323.4375 325.246875z"></path></svg>
+                <svg viewBox="0 0 1024 1024" style="fill: #000;right: 0px;position: absolute;">
+                    <path d="M638.88124999 469.11875l43.828125 43.828125-44.175 44.175-323.090625 324.88125c-11.9625 12.0375-11.9625 31.734375 0 43.790625 11.9625 12.01875 31.584375 12.01875 43.528125 0l388.828125-390.946875c11.934375-12.0375 11.934375-31.771875 0-43.790625L358.97187499 100.08125c-11.94375-12.01875-31.575-12.01875-43.528125 0-11.9625 12.065625-11.9625 31.771875 0 43.790625l323.4375 325.246875z"></path>
+                </svg>
             </div>
             <div class="item edit_item"><svg viewBox="0 0 48 48"><path d="M40 23V14L31 4H10C8.89543 4 8 4.89543 8 6V42C8 43.1046 8.89543 44 10 44H22" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M32 44L42 34L38 30L28 40V44H32Z" fill="none" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M30 4V14H40" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path></svg>编辑</div>
             <div class="item del_item"><svg viewBox="0 0 48 48"><rect width="48" height="48" fill="white" fill-opacity="0.01"></rect><path d="M9 10V44H39V10H9Z" fill="none" stroke="#333" stroke-width="4" stroke-linejoin="round"></path><path d="M20 20V33" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M28 20V33" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 10H44" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 10L19.289 4H28.7771L32 10H16Z" fill="none" stroke="#333" stroke-width="4" stroke-linejoin="round"></path></svg>删除</div>
         </div>
+        <div class="item_children add_item_children">
+            <div class="item_child add_item_text">文本</div>
+            <div class="item_child add_item_folder">文件夹</div>
+        </div>
     </div>
 </script>
 
-<script type="text/html" id="tpl">
+<script type="text/html" id="template">
     <div class="mdui-panel" mdui-panel>
         {{each dataList item}}
             {{if item.type=='text'}}
-                <p class="mdui-text" data-id="{{item.id}}" data-template="{{item.content}}">{{item.title}} </p>
+                <p class="mdui-text" data-id="{{item.id}}">{{item.title}} </p>
             {{else}}
                 <div class="mdui-panel-item mdui-folder">
                     <div class="mdui-panel-item-header">{{item.title}}</div>
                     <div class="mdui-panel-item-body">                        
                         {{each item.children child}}
-                            <p class="mdui-text" data-id="{{child.id}}" data-template="{{child.content}}">
+                            <p class="mdui-text" data-id="{{child.id}}">
                                 {{child.title}}
                             </p>
                         {{/each}}
@@ -119,7 +127,8 @@
     </div>
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/index.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/index.min.js"></script> -->
+<script src="./js/editor/index.min.js"></script>
 <script>
 
     //模板数组，全局变量，用来存放后台取过来的文章模板
@@ -149,6 +158,7 @@
             title: "超额完成业生产计划模板",
             content: '<h2 style="text-indent: 0px; text-align: start;">泰钢集团4月超额完成业生产计划</h2><p style="text-indent: 2em; text-align: left; line-height: 34px;">泰钢集团4月实现了各项生产指标全线飘红，生产经营取得显著成效：山前钢坯、中宽带产量分别取得了完成计划102.43%、102.59%的好成绩。</p><p style="text-indent: 2em; text-align: left; line-height: 34px;">950冷轧板和1700冷轧板分别完成计划的106.49%、100.03%。不锈钢坯完成计划的104.03%，不锈钢热轧卷完成计划的100.24%。泰嘉冷轧完成计划的100.17%等。</p>',
             type: 'text',
+            children: []
         }, {
             id: "1",
             parent: "0",
@@ -207,7 +217,8 @@
                 }
             ]
         }];
-        var html = template("tpl", { dataList: template_content });
+
+        var html = template("template", { dataList: template_content });
         return html;
     }
 
@@ -253,20 +264,24 @@
         }
     })
 
+    //点击mdui-text将内容填充到文本框内
     $("body").on('click', '.mdui-text', function () {
         var id = $(this).data('id');
-        var template = $(this).data('template');
-        // var html = getArrayValue(template_content, id)
-        console.log(template);
+        var template = getArrayValue(template_content, id);
+        // console.log(template);
         editor.insertBreak()
         editor.dangerouslyInsertHtml(template);
 
     })
 
-    $("body").on('click', function () {
+    //全局点击，关闭右键菜单
+    $("body").on('click', function (e) {
         if ($('.contextmenu-content').length > 0) {
-            $('.contextmenu-content').hide();
-            $('.mdui-panel .selected_target').removeClass('selected_target');
+            if (!e.target.classList.contains('add_item')) {
+                $('.contextmenu-content').hide();
+                $('.mdui-panel .selected_target').removeClass('selected_target');
+            }
+
         }
     })
 

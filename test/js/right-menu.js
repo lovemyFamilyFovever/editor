@@ -2,7 +2,7 @@
  * @Author: lxc
  * @Date: 2022-05-11 11:02:17
  * @LastEditors: lxc
- * @LastEditTime: 2022-05-11 17:24:08
+ * @LastEditTime: 2022-05-12 17:40:15
  * @FilePath: \editor\test\js\right-menu.js
  * @Description: 
  * 
@@ -15,6 +15,8 @@ function initRightMenu() {
 
     const layerContainer = document.querySelector('.layerContainer')
     const contentEl = document.querySelector('.contextmenu-content')
+    const itemListEl = document.querySelector('.item_list')
+    const itemchildrenEl = document.querySelector('.item_children')
 
     /**
      * 
@@ -36,10 +38,6 @@ function initRightMenu() {
 
     const onContextMenu = e => {
         e.preventDefault()
-        if (!$(e.target).hasClass('layerContainer')) {
-            $(e.target).addClass('selected_target');
-        }
-
         const rect = contentEl.getBoundingClientRect()
         // console.log(rect)
         const { x, y } = adjustPos(e.clientX, e.clientY, rect.width, rect.height)
@@ -52,17 +50,27 @@ function initRightMenu() {
     // 阻止指定元素下的菜单事件
     layerContainer.addEventListener('contextmenu', onContextMenu, false)
 
-    const hideContextMenu = () => {
-        contentEl.style.display = 'none'
-        contentEl.style.top = '99999px'
-        contentEl.style.left = '99999px'
+    const hideContextMenu = (e) => {
+        if (!e.target.classList.contains('add_item')) {
+            contentEl.style.display = 'none'
+            contentEl.style.top = '99999px'
+            contentEl.style.left = '99999px'
+        }
     }
 
-    // 点击菜单，隐藏
-    layerContainer.addEventListener('click', (e) => {
-        // console.log('点击：', e.target.textContent)
-        hideContextMenu()
-    }, false)
+    //鼠标悬浮时的事件
+    itemListEl.addEventListener('mouseover', (e) => {
+        if (e.target.classList.value.indexOf("add_item") > -1) {
+            $('.add_item_children').css('display', 'block')
+        } else {
+            $('.add_item_children').css('display', 'none')
+        }
+    })
+
+    itemchildrenEl.addEventListener('mouseover', (e) => {
+        $('.add_item_children').css('display', 'block')
+    })
+
 
     contentEl.addEventListener('click', (e) => {
         console.log('点击：', e.target.textContent)
@@ -91,7 +99,7 @@ function initRightMenu() {
 
         }
 
-        hideContextMenu()
+        hideContextMenu(e)
     })
 
 }

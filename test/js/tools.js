@@ -2,7 +2,7 @@
  * @Author: lxc
  * @Date: 2022-05-06 15:01:34
  * @LastEditors: lxc
- * @LastEditTime: 2022-05-11 17:32:51
+ * @LastEditTime: 2022-05-12 17:29:18
  * @FilePath: \editor\test\js\tools.js
  * @Description: 
  * 
@@ -44,25 +44,19 @@ const myMenuConf = {
 
 //递归 在array中根据id获取特定值
 function getArrayValue(array, id) {
-    // for (var i = 0; i < array.length; i++) {
-    //     if (array[i].type == "folder") {
-    //         console.log(array[i])
-    //         getArrayValue(array[i].children, id);
-    //     } else {
-    //         if (id == array[i].id) {
-    //             console.log(array[i])
-    //             return array[i].content;
-    //         }
-
-    //     }
-    // }
-    // products.find(product => product.items.some(item => item.name === '3'));
-
-
-    array.find((arr) => {
-        return arr.some((item) => {
-            return item.id === id;
-        });
-
-    });
+    var result = null;
+    for (var i = 0; i < array.length; i++) {
+        if (result !== null) {
+            break;
+        }
+        if (array[i].type == "folder") {
+            result = getArrayValue(array[i].children, id);
+        } else {
+            if (id == array[i].id) {
+                result = array[i].content;
+                break;
+            }
+        }
+    }
+    return result;
 }
