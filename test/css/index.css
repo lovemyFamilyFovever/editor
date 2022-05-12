@@ -127,12 +127,6 @@ input {
   top: 7px;
 }
 
-svg {
-  fill: #595959;
-  width: 10px;
-  height: 10px;
-}
-
 .add_btn {
   cursor: pointer;
   line-height: 1;
@@ -183,10 +177,8 @@ svg {
   padding-left: 60px;
 }
 
-
 .mdui-text:hover {
   background: #efefef;
-  cursor: pointer;
 }
 
 .mdui-text:before {
@@ -256,7 +248,7 @@ svg {
   position: fixed;
   left: 999999px;
   top: 999999px;
-
+  font-size: 14px;
   user-select: none;
   z-index: 1003;
   width: 170px;
@@ -280,16 +272,41 @@ svg {
   position: relative;
 }
 
-.item:hover, .item_child:hover {
+.add_item:after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  position: absolute;
+  border: 1.5px solid #000;
+  border-top: 0;
+  border-left: 0;
+  transform: rotate(-45deg);
+  top: 14px;
+  right: 13px;
+}
+
+.item_list span {
+  display: block;
+  width: calc(100% - 38px);
+  height: 40px;
+  line-height: 40px;
+  z-index: 2;
+  position: absolute;
+  left: 0px;
+  bottom: 0;
+  padding-left: 40px;
+}
+
+.item:hover,
+.item_child:hover {
   /* background: #e5e5e6; */
   background: #f1f1f1;
   color: #333;
 }
 
 .item svg {
-  height: 15px;
-  width: 15px;
-  fill: #fff;
+  height: 17px;
+  width: 17px;
   padding-right: 8px;
   vertical-align: top;
 }
@@ -298,8 +315,7 @@ svg {
   display: none;
   position: absolute;
   padding-top: 10px;
-  right: -174px;
-  top: 5px;
+  top: 10px;
   user-select: none;
   z-index: 1008;
   width: 170px;
@@ -321,6 +337,7 @@ svg {
   padding: 10px 15px;
   color: #595959;
   position: relative;
+  padding-left: 38px;
 }
 
 .item_children:hover {
@@ -329,6 +346,26 @@ svg {
 
 .add_item:hover .item_children {
   display: block;
+}
+
+.add_item_folder:before {
+  content: "";
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  background: url(../img/folder.png) no-repeat;
+  background-size: 100%;
+  left: 11px;
+}
+
+.add_item_text:before {
+  content: "";
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  background: url("../img/text.png") no-repeat;
+  background-size: 100%;
+  left: 10px;
 }
 
 /* 右键菜单 */

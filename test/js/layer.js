@@ -128,8 +128,8 @@ Layer.prototype = {
                 $(document).unbind("mousemove");
             });
         });
-    }
-    , show: function () {
+    },
+    show: function () {
         this._createDialog();
         this.moveDialog();
         this.revampSize();

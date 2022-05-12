@@ -3,12 +3,12 @@
  * @Date: 2022-05-11 11:02:17
  * @LastEditors: lxc
  * @LastEditTime: 2022-05-12 17:40:15
- * @FilePath: \editor\test\js\right-menu.js
+ * @FilePath: \editor\test\js\initRightContextMenu.js
  * @Description: 
  * 
  * Copyright (c) 2022 by __, All Rights Reserved. 
  */
-function initRightMenu() {
+function initRightContextMenu() {
 
     var html = template("rightMenu", {});
     $('body').append(html);
@@ -40,8 +40,8 @@ function initRightMenu() {
         e.preventDefault()
         const rect = contentEl.getBoundingClientRect()
         // console.log(rect)
-        const { x, y } = adjustPos(e.clientX, e.clientY, rect.width, rect.height)
-
+        const { x, y } = adjustPos(e.clientX, e.clientY, 170, 300)
+        console.log(x, y)
         contentEl.style.display = 'block'
         contentEl.style.left = x + 'px'
         contentEl.style.top = y + 'px'
@@ -51,55 +51,77 @@ function initRightMenu() {
     layerContainer.addEventListener('contextmenu', onContextMenu, false)
 
     const hideContextMenu = (e) => {
-        if (!e.target.classList.contains('add_item')) {
-            contentEl.style.display = 'none'
-            contentEl.style.top = '99999px'
-            contentEl.style.left = '99999px'
-        }
+        contentEl.style.display = 'none'
+        contentEl.style.top = '99999px'
+        contentEl.style.left = '99999px'
+
+        hideChildren()
     }
 
     //鼠标悬浮时的事件
     itemListEl.addEventListener('mouseover', (e) => {
-        if (e.target.classList.value.indexOf("add_item") > -1) {
-            $('.add_item_children').css('display', 'block')
-        } else {
-            $('.add_item_children').css('display', 'none')
+        e.stopPropagation()
+        if (e.target.classList.contains("more_item"))
+            showChildren()
+        else {
+            hideChildren()
         }
     })
-
     itemchildrenEl.addEventListener('mouseover', (e) => {
-        $('.add_item_children').css('display', 'block')
+        showChildren()
     })
-
 
     contentEl.addEventListener('click', (e) => {
         console.log('点击：', e.target.textContent)
         var text = e.target.textContent
 
-        //右键点击文本
-        if ($(e.target).hasClass('mdui-text')) {
-            if (text == "添加") {
+        if (!e.target.classList.contains("more_item")) {
+            //右键点击文本
+            if ($(e.target).hasClass('mdui-text')) {
+                if (text == "添加") {
 
-            } else if (text == "编辑") {
+                } else if (text == "编辑") {
 
-            } else if (text == "删除") {
+                } else if (text == "删除") {
 
+                }
+            } else {
+                // 右键点击文件夹
+
+                if (text == "添加") {
+
+                } else if (text == "编辑") {
+
+                } else if (text == "删除") {
+
+                }
             }
-
-        } else {
-            // 右键点击文件夹
-
-            if (text == "添加") {
-
-            } else if (text == "编辑") {
-
-            } else if (text == "删除") {
-
-            }
-
+            hideContextMenu(e)
         }
+    })
 
-        hideContextMenu(e)
+    function showChildren() {
+        const rect = contentEl.getBoundingClientRect();
+        // console.log(rect)
+        const vw = document.documentElement.clientWidth
+        if (rect.left + 360 > vw)
+            $('.item_children').css("left", '-173px')
+        else
+            $('.item_children').css("left", '172px')
+        $('.item_children').show()
+    }
+
+    function hideChildren() {
+        $('.item_children').hide()
+    }
+
+    //全局点击，关闭右键菜单
+    $("body").on('click', function (e) {
+        if ($('.contextmenu-content').length > 0) {
+            if (!e.target.classList.contains('more_item')) {
+                hideContextMenu();
+            }
+        }
     })
 
 }
