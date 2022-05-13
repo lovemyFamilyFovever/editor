@@ -2,7 +2,7 @@
  * @Author: lxc
  * @Date: 2022-04-27 11:50:09
  * @LastEditors: lxc
- * @LastEditTime: 2022-05-12 17:38:44
+ * @LastEditTime: 2022-05-13 11:54:46
  * @FilePath: \editor\test\index.html
  * @Description: 
  * 
@@ -148,7 +148,8 @@
     const LANG = location.href.indexOf('lang=en') > 0 ? 'en' : 'zh-CN'
     E.i18nChangeLanguage(LANG) // 切换语言
 
-    E.Boot.registerMenu(myMenuConf)
+    E.Boot.registerMenu(templateMenuConf)
+    E.Boot.registerMenu(clearMenuConf)
 
     window.editor = E.createEditor({
         selector: '#editor-text-area',
@@ -179,8 +180,8 @@
         selector: '#editor-toolbar',
         config: {
             insertKeys: {
-                index: 0,
-                keys: ['myMenu'], // show menu in toolbar
+                index: 0, // 插入的位置，基于当前的 toolbarKeys
+                keys: ['clearMenu', 'templateMenu'], // show menu in toolbar
             }
         }
     })
@@ -244,7 +245,7 @@
                 {
                     id: '201',
                     parent: '2',
-                    title: "【51bxg】钢市齐挺价，后市价格将",
+                    title: "钢市齐挺价，后市价格将",
                     type: "text",
                     content: '<p>这是一条测试数据2022年5月10日15:38:47</p>'
                 }
@@ -259,7 +260,7 @@
                 {
                     id: "301",
                     parent: "4",
-                    title: "佛山不锈钢",
+                    title: "测试数据3",
                     type: "text",
                     content: '<h2 style="text-indent: 0px; text-align: start;">青山继续平盘，现货守稳30000关口！</h2><p>日期：2022-05-07&nbsp;14:50:02打印579标签：300系 市场快讯</p><p>今日青山开启5月首次盘价，316L来看，冷轧暂未“露面”，而热轧5月期货价格30000元/吨，较于前一轮（4月20日）盘价继续持平！</p><p>现货市场来看，午后暂未有明显调价，毕竟目前现货市场民营热轧316L主流基价就踩稳在3万关口。</p><p>成本支撑、钢厂检修、挺价等等因素，近期都使得316L的价格被迫坚强。从节后原料钼铁价格来看，已经出现小幅度回落，但是目前还能守住180000关口，钼价短期也有着生产成本的支撑，从而产生惜售情绪!</p>',
                 }, {
@@ -267,7 +268,7 @@
                     parent: "4",
                     title: "无锡不锈钢",
                     type: "text",
-                    content: '<p>这是一条测试数据2022年5月7日15:38:47</p>'
+                    content: '<p>这是一条测试数据2022年5月8日15:38:47</p>'
                 }
             ]
         }];
@@ -280,12 +281,14 @@
         var id = $(this).data('id');
         var template = getArrayValue(template_content, id);
         // console.log(template);
-        editor.insertBreak()
+
+        if (!editor.isFocused()) {
+            editor.focus(true);
+        }
+        if (!editor.isEmpty())
+            editor.insertBreak()
         editor.dangerouslyInsertHtml(template);
     })
-
-    //清空编辑器内容
-    //editor.clear()
 
 </script>
 

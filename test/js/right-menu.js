@@ -2,8 +2,8 @@
  * @Author: lxc
  * @Date: 2022-05-11 11:02:17
  * @LastEditors: lxc
- * @LastEditTime: 2022-05-12 17:40:15
- * @FilePath: \editor\test\js\initRightContextMenu.js
+ * @LastEditTime: 2022-05-13 08:54:09
+ * @FilePath: \editor\test\js\right-menu.js
  * @Description: 
  * 
  * Copyright (c) 2022 by __, All Rights Reserved. 
@@ -41,10 +41,12 @@ function initRightContextMenu() {
         const rect = contentEl.getBoundingClientRect()
         // console.log(rect)
         const { x, y } = adjustPos(e.clientX, e.clientY, 170, 300)
-        console.log(x, y)
+        // console.log(x, y)
         contentEl.style.display = 'block'
         contentEl.style.left = x + 'px'
         contentEl.style.top = y + 'px'
+
+        hideChildren()
     }
 
     // 阻止指定元素下的菜单事件
