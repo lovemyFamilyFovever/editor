@@ -2,7 +2,7 @@
  * @Author: lxc
  * @Date: 2022-04-27 11:50:09
  * @LastEditors: lxc
- * @LastEditTime: 2022-05-13 11:54:46
+ * @LastEditTime: 2022-05-13 15:43:43
  * @FilePath: \editor\test\index.html
  * @Description: 
  * 
@@ -53,16 +53,17 @@
         </div> -->
         <div class="page-right">
             <!-- 编辑器 DOM -->
-            <div style="border: 1px solid #ccc;">
+            <div>
                 <div id="editor-toolbar" style="border-bottom: 1px solid #ccc;"></div>
-                <div id="editor-text-area" style="height: calc(100vh - 120px)"></div>
+                <div id="editor-text-area">
+                </div>
             </div>
 
             <!-- mask div 蒙层 -->
             <div id="mask"></div>
 
             <!-- 内容状态 -->
-            <p style="background-color: #f1f1f1;">
+            <p class="show_text_detail">
                 文本长度: <span id="total-length"></span>;
                 选中文字: <span id="selected-length"></span>;
             </p>
@@ -77,7 +78,7 @@
                 <svg viewBox="0 0 48 48" fill="#fff">
                     <path d="M40 23V14L31 4H10C8.89543 4 8 4.89543 8 6V42C8 43.1046 8.89543 44 10 44H22" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M33 29V43" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M26 36H33H40" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 4V14H40" stroke="#333" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                <span class="more_item">添加</span>          
+                <span class="more_item">新增</span>          
             </div>
             <div class="item edit_item">
                 <svg viewBox="0 0 48 48" fill="#fff">
@@ -180,11 +181,15 @@
         selector: '#editor-toolbar',
         config: {
             insertKeys: {
-                index: 0, // 插入的位置，基于当前的 toolbarKeys
+                index: 32, // 插入的位置，基于当前的 toolbarKeys
                 keys: ['clearMenu', 'templateMenu'], // show menu in toolbar
             }
         }
     })
+
+    //自定义悬浮菜单
+    editor.getConfig().hoverbarKeys.text.menuKeys.push('templateMenu')
+
 
     //模板数组，全局变量，用来存放后台取过来的文章模板
     var template_content = "";
@@ -289,7 +294,6 @@
             editor.insertBreak()
         editor.dangerouslyInsertHtml(template);
     })
-
 </script>
 
 </html>

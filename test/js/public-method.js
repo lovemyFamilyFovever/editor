@@ -2,8 +2,8 @@
  * @Author: lxc
  * @Date: 2022-05-06 15:55:19
  * @LastEditors: lxc
- * @LastEditTime: 2022-05-06 15:55:19
- * @FilePath: \富文本编辑器wangeditor\test\js\public-method.js
+ * @LastEditTime: 2022-05-13 15:01:17
+ * @FilePath: \editor\test\js\public-method.js
  * @Description: 
  * 
  * Copyright (c) 2022 by __, All Rights Reserved. 
@@ -23,8 +23,6 @@ function Public() {
         }
     }
 }
-
-
 
 ; (function (win) {
     if (win["UDP"]) {

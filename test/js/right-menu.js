@@ -2,7 +2,7 @@
  * @Author: lxc
  * @Date: 2022-05-11 11:02:17
  * @LastEditors: lxc
- * @LastEditTime: 2022-05-13 08:54:09
+ * @LastEditTime: 2022-05-13 13:40:54
  * @FilePath: \editor\test\js\right-menu.js
  * @Description: 
  * 
@@ -45,7 +45,6 @@ function initRightContextMenu() {
         contentEl.style.display = 'block'
         contentEl.style.left = x + 'px'
         contentEl.style.top = y + 'px'
-
         hideChildren()
     }
 
@@ -56,7 +55,6 @@ function initRightContextMenu() {
         contentEl.style.display = 'none'
         contentEl.style.top = '99999px'
         contentEl.style.left = '99999px'
-
         hideChildren()
     }
 
